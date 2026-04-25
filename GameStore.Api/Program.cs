@@ -28,8 +28,13 @@ app.MapGet("/games", () => games);
 
 
 // GET /games/id
-app.MapGet("/game/{id}", (int id) => games.Find(game => game.Id == id))
+app.MapGet("/game/{id}", (int id) => {
+        var game = games.Find(game => game.Id == id);
+    
+        return game is null ? Results.NotFound() : Results.Ok(game);
+    })
     .WithName(GetGameEndpointName);
+
 
 //Post endpoint targeting /games, we will need a new DTO to represent incoming payload
 app.MapPost("/games", (CreateGameDTO newGame) =>
@@ -55,8 +60,20 @@ app.MapPost("/games", (CreateGameDTO newGame) =>
 
 app.MapPut("/games/{id}", (int id, UpdateGameDTO updatedGame) => {  
     var index = games.FindIndex(game => game.Id == id);
-    games[index] = new GameDto(id, updatedGame.Genre, updatedGame.Name, updatedGame.Price, updatedGame.ReleaseDate);
-    return Results.NoContent();
+    //you could create entry if it does not exist, it depends on who you ask
+    if (index == -1) return Results.NotFound();
     
+    games[index] = new GameDto(id, updatedGame.Name, updatedGame.Genre, updatedGame.Price, updatedGame.ReleaseDate);
+    return Results.NoContent();
 });
+// DELETE call for game to delete, requires the id endpoint, we do not need a DTO because there is no 
+// data to send, only recieves the id to delete 
+app.MapDelete("/games/{id}", (int id) =>
+{
+    games.RemoveAll(game => game.Id == id);
+    
+    return Results.NoContent();
+});
+
+
 app.Run();

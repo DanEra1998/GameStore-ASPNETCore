@@ -1,2 +1,31 @@
 GET http://localhost:5222/games
 
+###
+
+GET http://localhost:5222/game/1
+
+
+### 
+
+POST http://localhost:5222/games
+Content-Type: application/json
+
+{
+  "name" : "Super Mario MEOW MEOW", 
+  "genre": "Platformer",
+  "price": 59.99, 
+  "releaseDate": "2026-04-23"
+}
+
+###
+
+PUT http://localhost:5222/games/1
+Content-Type: application/json
+
+  {
+    "id": 1,
+    "name": "Street Fighter II TURBO",
+    "genre": "Fighting ",
+    "price": 99.99,
+    "releaseDate": "1992-07-15"
+  }

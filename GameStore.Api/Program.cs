@@ -1,7 +1,11 @@
 using GameStore.Api.DTOs;
 
+const string GetGameEndpointName = "GetGame";
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+
+
 
 List<GameDto> games = [
     new (1, "Street Fighter II", "Fighting", 19.99M, new DateOnly(1992, 7, 15)),
@@ -24,6 +28,35 @@ app.MapGet("/games", () => games);
 
 
 // GET /games/id
-app.MapGet("/game/{id}", (int id) => games.FirstOrDefault(g => g.Id == id));
+app.MapGet("/game/{id}", (int id) => games.Find(game => game.Id == id))
+    .WithName(GetGameEndpointName);
 
+//Post endpoint targeting /games, we will need a new DTO to represent incoming payload
+app.MapPost("/games", (CreateGameDTO newGame) =>
+{
+    GameDto game = new(
+        games.Count + 1,
+        newGame.Name,
+        newGame.Genre,
+        newGame.Price,
+        newGame.ReleaseDate
+    );
+
+    games.Add(game);
+
+    //return proper response to the client and the payload 
+    return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game); 
+    // instead of passing entire GET call, name it and pass the name, in our case "GetGame" represents the GET api
+    
+});
+
+// PUT /games/ has to include the id to update the specific game
+// we will need our own DTO
+
+app.MapPut("/games/{id}", (int id, UpdateGameDTO updatedGame) => {  
+    var index = games.FindIndex(game => game.Id == id);
+    games[index] = new GameDto(id, updatedGame.Genre, updatedGame.Name, updatedGame.Price, updatedGame.ReleaseDate);
+    return Results.NoContent();
+    
+});
 app.Run();

@@ -20,7 +20,16 @@ public static class DataExtensions
     {
         // research DEPENDENCY INJECTION 
         var connString = builder.Configuration.GetConnectionString("GameStore"); // RECALL IT IS BAD TO HARDCODE
-//registration of db context with connString
+        //registration of db context with connString
+        //Dependency Injection (Scoped) found within GamesEndpoint.cs
+        //DbContext has a scoped service lifetime because: 
+        // 1. It ensures that a new instance of DbContext is created per request
+        // 2. DB connections are a limited and expensive resource
+        // 3. DbContext is not thread-safe. Scoped avoids concurrency issues
+        // 4. Makes it easier to manage transactions and ensure data consistency
+        // 5. Reusing a DbContext instance can lead to increased memory usage, so we ensure we don't use too much
+        // resources by using scoped
+        
         builder.Services.AddSqlite<GameStoreContext>(
             connString, 
             optionsAction: options => options.UseSeeding((context, _) =>

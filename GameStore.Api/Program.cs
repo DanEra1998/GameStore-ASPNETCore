@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 //CreateGameDTO file
 builder.Services.AddValidation();
 //all database logic is within our own created AddGameStoreDB which we extended EF (requires static) 
-builder.AddGameStoreDb();
+builder.AddGameStoreDb(); 
 
 //all validation services will be available for all our endpoints
 var app = builder.Build();

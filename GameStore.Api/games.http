@@ -4,7 +4,7 @@ GET http://localhost:5222/games
 
 ###
 
-GET http://localhost:5222/game/11
+GET http://localhost:5222/games/1
 
 ### 
 
@@ -13,8 +13,8 @@ Content-Type: application/json
 
 {
   "name" : "Super Mario MEOW MEOW", 
-  "genre": "Platformer",
-  "price": 59.99, 
+  "genreId": 3,
+  "price": 19.99, 
   "releaseDate": "2026-04-23"
 }
 

@@ -4,7 +4,7 @@ GET http://localhost:5222/games
 
 ###
 
-GET http://localhost:5222/games/1
+GET http://localhost:5222/games/4
 
 ### 
 
@@ -12,23 +12,23 @@ POST http://localhost:5222/games
 Content-Type: application/json
 
 {
-  "name" : "Super Mario MEOW MEOW", 
-  "genreId": 3,
-  "price": 19.99, 
-  "releaseDate": "2026-04-23"
+  "name" : "Test game", 
+  "genreId": 1,
+  "price": 49.99, 
+  "releaseDate": "1991-02-01"
 }
 
 ###
 
-PUT http://localhost:5222/games/11
+PUT http://localhost:5222/games/2
 Content-Type: application/json
 
   {
-    "name": "Street Fighter II TURBO",
-    "genre": "Fighting",
+    "name" : "Street figher II TURBO**",
+    "genreId": 1,
     "price": 99.99,
-    "releaseDate": "1992-07-15"
+    "releaseDate": "1991-02-01"
   }
   
 ### 
-DELETE  http://localhost:5222/games/11
+DELETE  http://localhost:5222/games/4
